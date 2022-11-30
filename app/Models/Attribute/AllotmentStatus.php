@@ -2,10 +2,25 @@
 
 namespace App\Models\Attribute;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class AllotmentStatus extends Model
 {
-    use HasFactory;
+    public static function defaultAllotmentStatuses()
+    {
+        return [
+            'pending',
+            'confirmed',
+            'cancelled',
+        ];
+    }
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public function allotments()
+    {
+        return $this->hasMany(Allotment::class);
+    }
 }

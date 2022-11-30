@@ -2,10 +2,24 @@
 
 namespace App\Models\Attribute;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class EstablishmentType extends Model
 {
-    use HasFactory;
+    public static function defaultEstablishmentTypes()
+    {
+        return [
+            'IB',
+            'IQ',
+        ];
+    }
+
+    protected $fillable = [
+        'name',
+    ];
+
+    public function establishments()
+    {
+        return $this->hasMany(Establishment::class);
+    }
 }
