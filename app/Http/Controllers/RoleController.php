@@ -2,8 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\Permission\Role;
 use Illuminate\Http\Request;
+use App\Models\Permission\Role;
+use App\Models\Permission\Permission;
 
 class RoleController extends Controller
 {
@@ -24,7 +25,9 @@ class RoleController extends Controller
      */
     public function create()
     {
-        //
+        $permissions = Permission::all();
+
+        return view('app.role.create', compact('permissions'));
     }
 
     /**
@@ -35,7 +38,18 @@ class RoleController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $validated = $request->validate([
+            'name' => 'required|unique:roles,name',
+            'permissions' => 'required|array|min:1',
+        ]);
+
+        $role = Role::create([
+            'name' => $validated['name'],
+        ]);
+
+        $role->syncPermissions($validated['permissions']);
+
+        return redirect()->route('role.index');
     }
 
     /**

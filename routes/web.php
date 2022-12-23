@@ -28,7 +28,8 @@ Route::middleware([
         return view('dashboard');
     })->name('dashboard');
 
-    Route::resource('role', RoleController::class);
+    Route::resource('role', RoleController::class)
+        ->only(['index', 'create', 'store', 'edit', 'update']);
 
     Route::resource('user', UserController::class);
 });
