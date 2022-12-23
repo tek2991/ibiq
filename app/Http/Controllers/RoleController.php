@@ -40,16 +40,19 @@ class RoleController extends Controller
     {
         $validated = $request->validate([
             'name' => 'required|unique:roles,name',
-            'permissions' => 'required|array|min:1',
+            'permission_ids' => 'required|array',
+            'permission_ids.*' => 'required|exists:permissions,id',
         ]);
 
         $role = Role::create([
             'name' => $validated['name'],
         ]);
 
-        $role->syncPermissions($validated['permissions']);
+        $permissions = Permission::whereIn('id', $validated['permission_ids'])->get();
 
-        return redirect()->route('role.index');
+        $role->syncPermissions($permissions);
+
+        return redirect()->route('role.index')->with('success', 'Role created successfully.');
     }
 
     /**

@@ -24,7 +24,7 @@
                             <!--Permissions -->
                             <div class="mt-4">
                                 <x-jet-label for="permissions" :value="__('Permissions')" />
-                                <x-input-select id="permission_id" class="block mt-1 w-full" name="permission_id" multiple required>
+                                <x-input-select id="permission_ids" class="block mt-1 w-full" name="permission_ids[]" multiple required>
                                     <option value="" disabled selected>Select Permissions</option>
                                     @foreach ($permissions as $permission)
                                         <option value="{{ $permission->id }}">
